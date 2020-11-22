@@ -143,10 +143,10 @@ These are the examples of the XML in use
 
 ## Vox 			
   - file(string) - Magicavoxel .vox file. Search path data/vox. LEVEL will make it search in the folder with the same name as the xml document.\
-  **Example**: ``` <vox pos="0 3 -4" file="LEVEL/example.vox"/>```
+    **Example**: ``` <vox pos="0 3 -4" file="LEVEL/example.vox"/>```
 
   - object (string?) - Vox file sub object. Objects can be named under the outline in magicavoxel.\
-  **Example**: ``` <vox pos="4.5 1 -1" file="LEVEL/car.vox" object="wheel"/>```\
+   **Example**: ``` <vox pos="4.5 1 -1" file="LEVEL/car.vox" object="wheel"/>```\
   <img src="images/outline.png" width="200">
 
   - pos (vec3) - Position in meters\
@@ -167,7 +167,7 @@ These are the examples of the XML in use
    <img src="images/sphereLight.png" width="350"> | <img src="images/coneLight.png" width="350"> | <img src="images/areaLight.png" width="350">
 
   - color (vec) - Light color RGB value. Do not include intensity here. All values should be in between zero and one.\
-  **Example**: ``` <light pos="0 2.5 0" scale="3" type="cone" color="1 0.9 0.3"/>```\
+    **Example**: ``` <light pos="0 2.5 0" scale="3" type="cone" color="1 0.9 0.3"/>```\
   <img src="images/lightcolor.png" width="500">
 
   - scale (float?) - Light intensity\
@@ -203,19 +203,39 @@ These are the examples of the XML in use
    <img src="images/areaOne.png" width="500"> | <img src="images/areaTwo.png" width="500">
 
   - unshadowed (float) - A small distance in meters that is always unshadowed. Useful to avoid shadows from a nearby light fixture and/or emissive light surface.\
-  **Example**: ``` <light pos="0 2 0" scale="3" type="cone" unshadowed="0.5"/>```
+    **Example**: ``` <light pos="0 2 0" scale="3" type="cone" unshadowed="0.5"/>```
      
    unshadowed="0" | unshadowed="1"
    :--:|:--:
    <img src="images/unshadowedTwo.png" width="500"> | <img src="images/unshadowedOne.png" width="500">
-  - fogscale (float?) - Volumetric fog amount
-  - fogiter (float?) - Quality of volumetric fog. Usually leave at one. For very bright and important lights, you may set increase it to avoid flickering.
+
+  - fogscale (float?) - Volumetric fog amount\
+    **Example**: ``` <light pos="0 2 5" rot="90 0 0" scale="2" type="cone" fogscale="0.3"/>```
+   
+   fogscale="0" | fogscale="5"
+   :--:|:--:
+   <img src="images/lightFogscaleOne.png" width="500"> | <img src="images/lightFogscaleTwo.png" width="500">
+
+  - fogiter (float?) - Quality of volumetric fog. Usually leave at one. For very bright and important lights, you may set increase it to avoid flickering.\
+    **Example**: ``` <light pos="0 2 6" rot="90 0 0" scale="4" type="cone" fogscale="2" fogiter="1"/>```\
+   <img src="images/lightFogiter.png" width="500">
+
   - sound (string) - path [volume]
-  - glare (int?) - Glare amount
+  
+  - glare (int?) - Glare amount\
+    **Example**: ``` <light pos="2 1.3 0" rot="90 0 0" scale="2" type="cone" glare="0.4"/>```
+   
+   glare="0.3" | glare="1"
+   :--:|:--:
+   <img src="images/lightGlareOne.png" width="500"> | <img src="images/lightGlareTwo.png" width="500">
 
 ## SpawnPoint
-    - pos (vec3) - Position in meters. player will spawn at the lowest point with no material above it.
-    - rot (vec3) - Rotation in degrees (e.g. 0-360) (example value to rotate backwards: rot="0 180 0")
+  - pos (vec3) - Position in meters. player will spawn at the lowest point with no material above it.\
+    **Example**: ``` <spawnpoint pos="10 0 -3"/>```
+   
+  - rot (vec3) - Rotation in degrees (e.g. 0-360) (example value to rotate backwards: rot="0 180 0")\
+    **Example**: ``` <spawnpoint pos="1.5 0 2" rot="0 90 0"/>```
+   
 
 ## Location
 
@@ -225,31 +245,85 @@ These are the examples of the XML in use
     - file (string) - possibly the voxscript file to be executed?
 
 ## Joint 
-    - type (string) - ball, hinge or prismatic
-    - size (float) - The joint attachment point search radius
-    - rotstrength (float) - Rotational strength of joint. Set to zero for freely rotating joint.
-    - rotspring (float) - Springyness of joint. Set to zero for pure damper. Keep below one to stay stable.
-    - collide (bool) - Allow collisions between jointed shapes
-    - limits (int?) - Optional min and max angle of hinge rotation
-    - sound (bool) -Joint makes sound
+  - type (string) - ball, hinge or prismatic\
+    **Example**: ``` <joint pos="-0.5 0 0" type="ball"/>```
+   
+   type="ball" | type="hinge" | type="prismatic" 
+   :--:|:--:|:--:
+   <img src="images/ballHinge.gif" width="350"> | <img src="images/hingeJoint.gif" width="350"> | <img src="images/prismaticJoint.gif" width="350">
+
+  - size (float) - The joint attachment point search radius\
+    **Example**: ``` <joint pos="-0.5 0 0" type="ball" size="0.2"/> ```
+  - rotstrength (float) - Rotational strength of joint. Set to zero for freely rotating joint.\
+    **Example**: ``` <joint pos="1.3 0.2 0" type="prismatic" rotstrength="0.1"/>```
+   
+   rotstrength="0" | rotstrength="0.3"
+   :--:|:--:
+   <img src="images/stiffJointTwo.gif" width="500"> | <img src="images/stiffJointOne.gif" width="500">
+
+  - rotspring (float) - Springyness of joint. Set to zero for pure damper. Keep below one to stay stable.\
+    **Example**: ``` <joint pos="1.3 0.2 0" type="prismatic" rotspring="0.1"/>```
+   
+   rotspring="0" | rotspring="0.3"
+   :--:|:--:
+   <img src="images/springJointOne.gif" width="500"> | <img src="images/springJointTwo.gif" width="500">
+
+  - collide (bool) - Allow collisions between jointed shapes\
+    **Example**: ``` <joint pos="-5 0 -0.3" type="ball" rotstrength="0.05" collide="true"/>```
+
+  - limits (int?) - Optional min and max angle of hinge rotation\
+    **Example**: ``` <joint pos="-0.5 0 0" rot="0 90 0" type="prismatic" limits="-1 1">```\
+   <img src="images/limits.gif" width="500">
+
+  - sound (bool) -Joint makes sound.\
+    **Example**: ``` <joint pos="-0.5 0 0" type="hinge" rotstrength="0.2" sound="true"/>```
 
 ## Water	
-    - type (string) - Geometry type: box or polygon
-    - size (Vec2) - Size in meters along X and Z axes. Only applicable to box
-    - depth (int?) - Depth along negative y axis
-    - wave (float) - Large wave amount
-    - ripple (float) - Small wave amount
-    - motion (float) - Sideways motion amount
-    - foam (float) - Foam amount
+  - type (string) - Geometry type: box or polygon\
+    **Example**: ``` <water pos="0 1.5 0" size="1 1" type="box"/>```
+  - size (Vec2) - Size in meters along X and Z axes. Only applicable to box\
+    **Example**: ``` <water pos="0 1.5 0" size="0.9 3" type="box"/>```
+
+  - depth (int?) - Depth along negative y axis\
+    **Example**: ``` <water pos="0 2 0" depth="2.4"/>```
+
+  - wave (float) - Large wave amount\
+    **Example**: ``` <water pos="0 2 0" wave="1"/>```
+   
+   wave="0.5" | wave="2"
+   :--:|:--:
+   <img src="images/waveSizeTwo.png" width="500"> | <img src="images/waveSizeOne.png" width="500">
+
+  - ripple (float) - Small wave amount\
+    **Example**: ``` <water pos="0 2 0" ripple="0.9"/>```
+   
+   ripple="0.2" | ripple="2"
+   :--:|:--:
+   <img src="images/rippleAmountOne.png" width="500"> | <img src="images/rippleAmountTwo.png" width="500">
+
+  - motion (float) - Sideways motion amount\
+    **Example**: ``` <water pos="0 1 0" motion="1.2"/>```
+   
+   motion="0" | motion="2"
+   :--:|:--:
+   <img src="images/waterMotionOne.gif" width="500"> | <img src="images/waterMotionTwo.gif" width="500">
+
+  - foam (float) - Foam amount\
+    **Example**: ``` <water pos="0 1.5 0" foam="1.4"/>```
+   
+   foam="0.5" | foam="4"
+   :--:|:--:
+   <img src="images/foamOne.png" width="500"> | <img src="images/foamTwo.png" width="500">
+
 
 ## VoxBox 		
-    - size (vec) - Size in voxels
-    - brush (string) - Magicavoxel file to use as brush or 3D texture
-    - object (string?) - Brush file subobject, if any
-    - offset (vec) - Offset into voxel brush, in voxels along x, y and z
-    - material (string) - Set material if no brush is given. Should be one of glass, wood, masonry, plaster, metal, heavymetal, rock, dirt, foliage, unphysical
-    - color (vec) - Color tint, RGB values between zero and one
-    - pbr (vec4) - Additinal PBR properties - reflectivity, shinyness, metalness and emissive. Emissive is in range 0-32, the others in range 0-1
+  - size (vec) - Size in voxels
+  - brush (string) - Magicavoxel file to use as brush or 3D texture
+  - object (string?) - Brush file subobject, if any
+  - offset (vec) - Offset into voxel brush, in voxels along x, y and z
+  - material (string) - Set material if no brush is given. Should be one of glass, wood, masonry, plaster, metal, heavymetal, rock, dirt, foliage, unphysical
+  - color (vec) - Color tint, RGB values between zero and one
+  - pbr (vec4) - Additinal PBR properties - reflectivity, shinyness, metalness and emissive. Emissive is in range 0-32, the others in range 0-1
 
 ## Voxagon 
     - brush (string) - Magicavoxel file to use as brush or 3D texture
